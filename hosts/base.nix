@@ -109,8 +109,8 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users = {
-      arindamukawlas = import ./home-manager/arindamukawlas.nix;
-      root = import ./home-manager/root.nix;
+      arindamukawlas = import ./users/arindamukawlas.nix;
+      root = import ./users/root.nix;
     };
   };
 
