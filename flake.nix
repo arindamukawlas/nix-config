@@ -1,40 +1,42 @@
 {
-  description = "NixOS configuration";
+    description = "NixOS configuration";
 
-  inputs = {
-    # Nixpkgs
-    nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-unstable";
+    inputs = {
+
+        # Nixpkgs
+        nixpkgs = {
+            url = "github:nixos/nixpkgs/nixos-unstable";
+        };
+
+        # nixpkgs-stable = {
+        #     url = "github:nixos/nixpkgs/nixos-24.05";
+        # };
+
+        # Home manager
+        home-manager = {
+            url = "github:nix-community/home-manager";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+
+        # Disko
+        disko = {
+            url = "github:nix-community/disko";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
-    #nixpkgs-stable = {
-    #  url = "github:nixos/nixpkgs/nixos-24.05";
-    #};
 
-    # Home manager
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Disko
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs =
+    outputs =
     {
-      self,
-      nixpkgs,
-      #nixpkgs-stable, 
-      home-manager,
-      disko,
-      ...
+        self,
+        nixpkgs,
+        #nixpkgs-stable, 
+        home-manager,
+        disko,
+        ...
     }@inputs:
     let
-      inherit (self) outputs;
-      system = "x86_64-linux";
+        inherit (self) outputs;
+        system = "x86_64-linux";
     in
     #overlay-stable = final: prev: {
     #  stable = import nixpkgs-stable {
@@ -43,37 +45,24 @@
     #  };
     #};
     {
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
-      nixosConfigurations = {
-        vbox = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [
-            #(
-            #  { config, pkgs, ... }:
-            #  {
-            #    nixpkgs.overlays = [ overlay-stable ];
-            #  }
-            #)
-            ./nixos/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit inputs outputs;
+        formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
+        nixosConfigurations = {
+            vbox = nixpkgs.lib.nixosSystem {
+                inherit system;
+                specialArgs = {
+                    inherit inputs outputs;
                 };
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users = {
-                  arindamukawlas = import ./home-manager/arindamukawlas.nix;
-                  root = import ./home-manager/root.nix;
-                };
-              };
-            }
-          ];
+                modules = [
+                    #(
+                    #  { config, pkgs, ... }:
+                    #  {
+                    #    nixpkgs.overlays = [ overlay-stable ];
+                    #  }
+                    #)
+                    ./hosts/vbox.nix
+                    home-manager.nixosModules.home-manager
+                ];
+            };
         };
-      };
     };
 }
