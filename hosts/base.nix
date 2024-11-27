@@ -7,6 +7,10 @@
   ...
 }:
 {
+  imports = [
+    home-manager.nixosModules.home-manager
+  ];
+
   boot = {
     loader = {
       # Use the systemd-boot EFI boot loader.
@@ -22,6 +26,9 @@
     config = {
       allowUnfree = true;
     };
+    overlays = [
+     # overlay-stable
+    ];
   };
 
   nix =
