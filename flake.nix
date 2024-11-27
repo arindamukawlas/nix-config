@@ -12,6 +12,10 @@
     #     url = "github:nixos/nixpkgs/nixos-24.05";
     # };
 
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+    };
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -29,7 +33,8 @@
     {
       self,
       nixpkgs,
-      #nixpkgs-stable, 
+      #nixpkgs-stable,
+      nixos-wsl,
       home-manager,
       disko,
       ...
@@ -53,14 +58,13 @@
             inherit inputs outputs;
           };
           modules = [
-            #(
-            #  { config, pkgs, ... }:
-            #  {
-            #    nixpkgs.overlays = [ overlay-stable ];
-            #  }
-            #)
             ./hosts/vbox.nix
-            home-manager.nixosModules.home-manager
+          ];
+        };
+        wsl = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/wsl.nix
           ];
         };
       };
