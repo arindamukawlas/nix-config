@@ -9,6 +9,7 @@
 }:
 {
   imports = [
+    nixos-wsl.nixosModules.default
     ../base.nix
     ./hardware-configuration.nix
     ../../modules/vscode-server.nix
