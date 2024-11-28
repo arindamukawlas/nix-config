@@ -83,6 +83,9 @@
     keyMap = "colemak/mod-dh-ansi-us";
   };
 
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
