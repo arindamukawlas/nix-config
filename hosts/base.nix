@@ -27,7 +27,12 @@
       allowUnfree = true;
     };
     overlays = [
-     # overlay-stable
+      #(final: prev: {
+      #  pkgs-stable = import nixpkgs-stable {
+      #    inherit system;
+      #    config.allowUnfree = true;
+      #  };
+      #};)
     ];
   };
 
@@ -126,17 +131,20 @@
   };
 
   environment = {
-    systemPackages = lib.mkBefore (with pkgs; [
-      git
-      vim
-      wget
-      curl
-      neofetch
-      neovim
-      nixfmt-rfc-style
-      nix-tree
-      ripgrep
-    ]);
+    systemPackages = lib.mkBefore (
+      with pkgs;
+      [
+        git
+        vim
+        wget
+        curl
+        neofetch
+        neovim
+        nixfmt-rfc-style
+        nix-tree
+        ripgrep
+      ]
+    );
 
     interactiveShellInit = ''
       alias nix-lspkgs="nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree"
@@ -146,9 +154,3 @@
     '';
   };
 }
-#overlay-stable = final: prev: {
-#  stable = import nixpkgs-stable {
-#    inherit system;
-#    config.allowUnfree = true;
-#  };
-#};
