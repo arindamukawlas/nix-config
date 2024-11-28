@@ -8,7 +8,7 @@
   ...
 }:
 {
-  imports = [ ./base.nix ];
+  imports = [ ../base.nix ];
 
   boot = {
     initrd = {
