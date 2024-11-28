@@ -10,6 +10,7 @@
 {
   imports = [
     ../base.nix
+    ./hardware-configuration.nix
     ../../modules/vscode-server.nix
   ];
 
