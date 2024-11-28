@@ -74,6 +74,7 @@
   networking = {
     hostName = "";
     networkmanager.enable = true;
+    useDHCP = lib.mkDefault true;
   };
 
   # Configure Console
