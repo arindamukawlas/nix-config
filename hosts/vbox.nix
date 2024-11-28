@@ -30,9 +30,6 @@
   # Set time zone.
   time.timeZone = "Asia/Kolkata";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
   # Do Not Change!!
   system = {
     stateVersion = "24.05";
