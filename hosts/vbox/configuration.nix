@@ -8,7 +8,10 @@
   ...
 }:
 {
-  imports = [ ../base.nix ];
+  imports = [
+    ../base.nix
+    ./hardware-configuration.nix
+  ];
 
   boot = {
     initrd = {
