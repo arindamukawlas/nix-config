@@ -126,7 +126,7 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [
+    systemPackages = lib.mkBefore (with pkgs; [
       git
       vim
       wget
@@ -136,7 +136,7 @@
       nixfmt-rfc-style
       nix-tree
       ripgrep
-    ];
+    ]);
 
     interactiveShellInit = ''
       alias nix-lspkgs="nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree"
@@ -146,3 +146,9 @@
     '';
   };
 }
+#overlay-stable = final: prev: {
+#  stable = import nixpkgs-stable {
+#    inherit system;
+#    config.allowUnfree = true;
+#  };
+#};

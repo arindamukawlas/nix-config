@@ -43,12 +43,7 @@
       inherit (self) outputs;
       system = "x86_64-linux";
     in
-    #overlay-stable = final: prev: {
-    #  stable = import nixpkgs-stable {
-    #    inherit system;
-    #    config.allowUnfree = true;
-    #  };
-    #};
+    
     {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
       nixosConfigurations = {
@@ -58,7 +53,7 @@
             inherit inputs outputs;
           };
           modules = [
-            ./hosts/vbox.nix
+            ./hosts/vbox/configuration.nix
           ];
         };
         wsl = nixpkgs.lib.nixosSystem {
@@ -67,7 +62,7 @@
             inherit inputs outputs;
           };
           modules = [
-            ./hosts/wsl.nix
+            ./hosts/wsl/configuration.nix
           ];
         };
       };
