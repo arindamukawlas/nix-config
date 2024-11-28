@@ -9,8 +9,8 @@
 }:
 {
   imports = [
-    ./base.nix
-    ../modules/vscode-server.nix
+    ../base.nix
+    ../../modules/vscode-server.nix
   ];
 
   boot = {
