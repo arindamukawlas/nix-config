@@ -63,6 +63,9 @@
         };
         wsl = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {
+            inherit inputs outputs;
+          };
           modules = [
             ./hosts/wsl.nix
           ];
