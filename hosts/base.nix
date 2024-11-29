@@ -9,6 +9,7 @@
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.nix-index-database.nixosModules.nix-index
   ];
 
   boot = {
@@ -91,6 +92,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+  programs = {
+    nix-index = {
+      enable = true;
+    };
+    nix-index-database = {
+      comma.enable = true;
+    };
+  };
+
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
@@ -134,17 +144,26 @@
     systemPackages = lib.mkBefore (
       with pkgs;
       [
+
+        # Nix
+        nixfmt-rfc-style
+        nix-tree
+        manix
+
         git
         vim
         wget
         curl
         neofetch
         neovim
-        nixfmt-rfc-style
-        nix-tree
         ripgrep
       ]
     );
+
+    variables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    };
 
     interactiveShellInit = ''
       alias nix-lspkgs="nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree"

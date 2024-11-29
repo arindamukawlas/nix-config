@@ -3,8 +3,8 @@
 # to /etc/nixos/configuration.nix instead.
 {
   config,
-  lib,
   pkgs,
+  lib,
   modulesPath,
   ...
 }:

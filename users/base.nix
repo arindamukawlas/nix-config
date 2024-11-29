@@ -19,6 +19,19 @@
         init.defaultBranch = "main";
       };
     };
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      defaultEditor = true;
+      withPython3 = true;
+      withRuby = true;
+      withNodeJs = true;
+    };
+    nix-index = {
+      enable = true;
+    };
     home-manager = {
       enable = true;
     };

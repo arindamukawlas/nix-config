@@ -16,6 +16,12 @@
       url = "github:nix-community/NixOS-WSL/main";
     };
 
+    # Nix Index
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -35,6 +41,7 @@
       nixpkgs,
       #nixpkgs-stable,
       nixos-wsl,
+      nix-index-database,
       home-manager,
       disko,
       ...
