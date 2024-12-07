@@ -12,17 +12,6 @@
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
-  boot = {
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot = {
-        enable = lib.mkForce true;
-        configurationLimit = 10;
-      };
-      efi.canTouchEfiVariables = true;
-    };
-  };
-
   nixpkgs = {
     config = {
       allowUnfree = true;
