@@ -156,7 +156,6 @@
     systemPackages = lib.mkBefore (
       with pkgs;
       [
-
         # Nix
         nixfmt-rfc-style
         nix-tree
@@ -170,6 +169,8 @@
         neofetch
         neovim
         ripgrep
+        zoxide
+        fzf
       ]
     );
 

@@ -10,23 +10,33 @@
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
+  home = {
+    stateVersion = "24.05";
+    preferXdgDirectories = true;
+    packages = with pkgs; [ ];
+    file = {
+      ".zshenv" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/.zshenv";
+      };
+    };
+  };
+
   xdg = {
     enable = true;
     configFile = {
       "zsh" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/zsh";
+        recursive = true;
       };
       "nvim" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/nvim";
+        recursive = true;
       };
     };
   };
 
   programs = {
-    zsh = {
-#      enable = true;
-#      dotDir = ".config/zsh";
-    };
+#    zsh.enable = true;
     git = {
       enable = true;
       userName = "Arindam Kawlas";
@@ -57,9 +67,4 @@
     };
   };
 
-  home = {
-    stateVersion = "24.05";
-    preferXdgDirectories = true;
-    packages = with pkgs; [ ];
-  };
 }
