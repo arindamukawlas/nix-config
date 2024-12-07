@@ -8,10 +8,9 @@
   ...
 }:
 {
-  imports = [
-    nixos-wsl.nixosModules.default
+  imports = [ 
+    "${modulesPath}/profiles/minimal.nix"
     ../base.nix
-    ./hardware-configuration.nix
     ../../modules/vscode-server.nix
   ];
 
