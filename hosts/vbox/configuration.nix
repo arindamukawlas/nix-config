@@ -14,6 +14,14 @@
   ];
 
   boot = {
+    loader = {
+      # Use the systemd-boot EFI boot loader.
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+      };
+      efi.canTouchEfiVariables = true;
+    };
     initrd = {
       checkJournalingFS = false;
     };
