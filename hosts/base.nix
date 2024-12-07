@@ -46,6 +46,12 @@
         # Enable flakes and new 'nix' command
         experimental-features = "nix-command flakes no-url-literals pipe-operators";
 
+        # Use XDG spec for old commands
+        use-xdg-base-directories = true;
+
+        # Disable warning when current config has not been committed
+        warn-dirty = false;
+
         # Deduplicate and optimise nix store
         auto-optimise-store = true;
 
@@ -93,6 +99,9 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   programs = {
+    zsh = {
+      enable = true;
+    };
     nix-index = {
       enable = true;
     };
@@ -117,14 +126,17 @@
   };
 
   # Define user account
-  users.users = {
-    arindamukawlas = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "input"
-        "networkmanager"
-      ];
+  users = {
+    defaultUserShell = pkgs.zsh;
+    users = {
+      arindamukawlas = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel"
+          "input"
+          "networkmanager"
+        ];
+      };
     };
   };
 
@@ -150,6 +162,7 @@
         nix-tree
         manix
 
+        zsh
         git
         vim
         wget
@@ -163,7 +176,13 @@
     variables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
+      XDG_CONFIG_HOME = "/home/arindamukawlas/.config";
+      XDG_DATA_HOME = "/home/arindamukawlas/.local/share";
+      XDG_CACHE_HOME = "/home/arindamukawlas/.cache";
+      XDG_STATE_HOME = "/home/arindamukawlas/.local/state";
     };
+
+    pathsToLink = [ "/share/zsh" ];
 
     interactiveShellInit = ''
       alias nix-lspkgs="nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree"
