@@ -11,7 +11,6 @@
   imports = [ 
     "${modulesPath}/profiles/minimal.nix"
     ../base.nix
-    ../../modules/vscode-server.nix
     inputs.nixos-wsl.nixosModules.wsl
   ];
 
@@ -42,7 +41,6 @@
     };
   };
 
-  vscode-remote-workaround.enable = true;
 
   nixpkgs = {
     hostPlatform = "x86_64-linux";

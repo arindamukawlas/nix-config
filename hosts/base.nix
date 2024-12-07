@@ -97,6 +97,9 @@
     nix-index-database = {
       comma.enable = true;
     };
+    nix-ld = {
+      enable = true;
+    };
   };
 
   services = {
@@ -160,6 +163,7 @@
         ripgrep
         zoxide
         fzf
+        gh
       ]
     );
 
