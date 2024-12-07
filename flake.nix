@@ -69,7 +69,9 @@
             inherit inputs outputs;
           };
           modules = [
+            { nix.registry.nixpkgs.flake = nixpkgs; }
             ./hosts/wsl/configuration.nix
+            nixos-wsl.nixosModules.wsl
           ];
         };
       };
