@@ -84,7 +84,7 @@
     };
 
   networking = {
-    hostName = "";
+    hostName = lib.mkDefault "";
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
   };
