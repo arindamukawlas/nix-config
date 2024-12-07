@@ -16,7 +16,7 @@
     loader = {
       # Use the systemd-boot EFI boot loader.
       systemd-boot = {
-        enable = true;
+        enable = lib.mkForce true;
         configurationLimit = 10;
       };
       efi.canTouchEfiVariables = true;
