@@ -12,6 +12,7 @@
     "${modulesPath}/profiles/minimal.nix"
     ../base.nix
     ../../modules/vscode-server.nix
+    inputs.nixos-wsl.nixosModules.wsl
   ];
 
   boot = {

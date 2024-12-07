@@ -36,7 +36,6 @@
   };
 
   programs = {
-#    zsh.enable = true;
     git = {
       enable = true;
       userName = "Arindam Kawlas";
