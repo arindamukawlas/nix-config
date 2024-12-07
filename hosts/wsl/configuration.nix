@@ -29,7 +29,7 @@
   };
 
   networking = {
-    hostname = "wsl";
+    hostName = "wsl";
   };
 
   wsl = {
