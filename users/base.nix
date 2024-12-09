@@ -16,7 +16,7 @@
     packages = with pkgs; [ ];
     file = {
       ".zshenv" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/.zshenv";
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/.zshenv";
       };
     };
   };
@@ -25,11 +25,19 @@
     enable = true;
     configFile = {
       "zsh" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/zsh";
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/zsh";
         recursive = true;
       };
       "nvim" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/users/programs/nvim";
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/nvim";
+        recursive = true;
+      };
+      "tmux" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/tmux";
+        recursive = true;
+      };
+      "zellij" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/zellij";
         recursive = true;
       };
     };
@@ -43,6 +51,10 @@
       extraConfig = {
         init.defaultBranch = "main";
       };
+    };
+    zellij = {
+      enable = true;
+      enableZshIntegration = true;
     };
     neovim = {
       enable = true;

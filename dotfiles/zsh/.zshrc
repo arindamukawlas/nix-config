@@ -55,7 +55,7 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 alias la="ls -A"
 alias cd="z"
-alias bat="batcat"
+#alias bat="batcat"
 
 # Options
 setopt HIST_SAVE_NO_DUPS
@@ -77,10 +77,11 @@ LS_COLORS=${LS_COLORS:-'di=34:ln=35:so=32:pi=33:ex=31:bd=36;\
 
 # Plugins
 export ZPLUGINDIR="$XDG_DATA_HOME/zsh/plugins"
-repos=(
+plugins=(
   romkatv/zsh-defer
   zsh-users/zsh-syntax-highlighting
   zsh-users/zsh-autosuggestions
+  fdellwing/zsh-bat
 )
 
 # Load Completion
@@ -197,4 +198,4 @@ source <(fzf --zsh)
 # Setup deno
 # . "/home/habanero/.local/share/deno/env"
 
-plugin-load $repos 
+plugin-load $plugins 

@@ -100,6 +100,10 @@
     nix-ld = {
       enable = true;
     };
+    tmux = {
+      enable = true;
+      clock24 = true;
+    };
   };
 
   services = {
@@ -164,6 +168,10 @@
         zoxide
         fzf
         gh
+        bat
+        tmux 
+        zellij
+        ripunzip
       ]
     );
 
