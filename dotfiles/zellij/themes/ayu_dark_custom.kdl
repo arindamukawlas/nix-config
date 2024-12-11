@@ -1,0 +1,15 @@
+themes {
+    ayu_dark_custom {
+        fg "#BFBDB6"
+        bg "#1B3A5B" 
+        black "#0A0E14"
+        red "#F07178"
+        green "#AAD94C"
+        yellow "#E6B450"
+        blue "#59C2FF"
+        magenta "#D2A6FF"
+        cyan "#73B8FF"
+        white "#CCCAC2"
+        orange "#FF8F40"
+    }
+}

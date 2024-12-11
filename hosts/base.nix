@@ -88,6 +88,11 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   programs = {
+    git = {
+      config = { 
+        credential.helper = "cache";
+      };
+    };
     zsh = {
       enable = true;
     };
@@ -99,10 +104,6 @@
     };
     nix-ld = {
       enable = true;
-    };
-    tmux = {
-      enable = true;
-      clock24 = true;
     };
   };
 
@@ -169,7 +170,6 @@
         fzf
         gh
         bat
-        tmux 
         zellij
         ripunzip
       ]
