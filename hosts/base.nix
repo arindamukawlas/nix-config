@@ -158,8 +158,25 @@
         nix-tree
         manix
 
+        # Rust
+        cargo
+        rustc
+        rustfmt
+        rustlings
+        clippy
+        
+        # Zig
+        zig
+
+        # LSPs
+        zls
+        rust-analyzer
+        lua-language-server
+
         zsh
         git
+        lazygit
+        tree-sitter
         vim
         wget
         curl
@@ -172,6 +189,7 @@
         bat
         zellij
         ripunzip
+        sherlock
       ]
     );
 
