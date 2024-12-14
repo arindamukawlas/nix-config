@@ -50,12 +50,8 @@
         # Workaround for https://github.com/NixOS/nix/issues/9574
         nix-path = config.nix.nixPath;
 
-        substituters = lib.mkBefore [
-          "https://nix-community.cachix.org?priority=1"
-        ];
-        trusted-public-keys = [
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        ];
+        substituters = lib.mkBefore [ "https://nix-community.cachix.org?priority=1" ];
+        trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
       };
 
       # Make flake registry and nix path match flake inputs
@@ -89,7 +85,7 @@
 
   programs = {
     git = {
-      config = { 
+      config = {
         credential.helper = "cache";
       };
     };
@@ -104,6 +100,9 @@
     };
     nix-ld = {
       enable = true;
+    };
+    ssh = {
+      startAgent = true;
     };
   };
 
@@ -138,9 +137,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = {
-      inherit inputs outputs;
-    };
+    extraSpecialArgs = { inherit inputs outputs; };
     useGlobalPkgs = true;
     useUserPackages = true;
     users = {
@@ -164,7 +161,7 @@
         rustfmt
         rustlings
         clippy
-        
+
         # Zig
         zig
 

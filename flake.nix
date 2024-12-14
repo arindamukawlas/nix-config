@@ -33,10 +33,20 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
       #nixpkgs-stable,
@@ -44,34 +54,37 @@
       nix-index-database,
       home-manager,
       disko,
+      flake-parts,
+      treefmt-nix,
       ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      system = "x86_64-linux";
-    in
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ ];
+      systems = [ "x86_64-linux" ];
+      #          formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
+      #         formatter = eachSystem (pkgs: treefmtEval.config.build.wrapper);
+      #        checks = eachSystem (pkgs: {
+      #         formatting = treefmtEval.config.build.check self;
+      #      });
 
-    {
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
-      nixosConfigurations = {
-        vbox = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs;
+      flake =
+        let
+          inherit (self) outputs;
+          system = "x86_64-linux";
+        in
+        {
+          nixosConfigurations = {
+            vbox = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = { inherit inputs outputs; };
+              modules = [ ./hosts/vbox/configuration.nix ];
+            };
+            wsl = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = { inherit inputs outputs; };
+              modules = [ ./hosts/wsl/configuration.nix ];
+            };
           };
-          modules = [
-            ./hosts/vbox/configuration.nix
-          ];
         };
-        wsl = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [
-            ./hosts/wsl/configuration.nix
-          ];
-        };
-      };
     };
 }

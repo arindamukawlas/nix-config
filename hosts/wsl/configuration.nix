@@ -8,7 +8,7 @@
   ...
 }:
 {
-  imports = [ 
+  imports = [
     "${modulesPath}/profiles/minimal.nix"
     ../base.nix
     inputs.nixos-wsl.nixosModules.wsl
@@ -40,7 +40,6 @@
       user.default = "arindamukawlas";
     };
   };
-
 
   nixpkgs = {
     hostPlatform = "x86_64-linux";
