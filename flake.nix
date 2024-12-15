@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix"; 
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -50,37 +55,40 @@
       self,
       nixpkgs,
       #nixpkgs-stable,
-      nixos-wsl,
-      nix-index-database,
-      home-manager,
-      disko,
       flake-parts,
       treefmt-nix,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+      ];
       systems = [ "x86_64-linux" ];
-      #          formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
-      #         formatter = eachSystem (pkgs: treefmtEval.config.build.wrapper);
-      #        checks = eachSystem (pkgs: {
-      #         formatting = treefmtEval.config.build.check self;
-      #      });
-
+      perSystem =
+        { ... }:
+        {
+          treefmt = {
+            programs = {
+              nixfmt = {
+                enable = true;
+              };
+              deadnix = {
+                enable = true;
+              };
+            };
+          };
+        };
       flake =
         let
           inherit (self) outputs;
-          system = "x86_64-linux";
         in
         {
           nixosConfigurations = {
             vbox = nixpkgs.lib.nixosSystem {
-              inherit system;
               specialArgs = { inherit inputs outputs; };
               modules = [ ./hosts/vbox/configuration.nix ];
             };
             wsl = nixpkgs.lib.nixosSystem {
-              inherit system;
               specialArgs = { inherit inputs outputs; };
               modules = [ ./hosts/wsl/configuration.nix ];
             };

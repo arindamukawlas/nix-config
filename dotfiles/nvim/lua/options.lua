@@ -4,7 +4,7 @@ vim.g.maplocalleader = " "
 
 -- Highlight code found in markdown files
 vim.g.markdown_fenced_languages = {
-	"ts=typescript",
+    "ts=typescript",
 }
 
 -- disable perl and ruby default providers

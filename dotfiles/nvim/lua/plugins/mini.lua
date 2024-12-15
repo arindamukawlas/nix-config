@@ -1,5 +1,5 @@
 return {
-	{
-		'echasnovski/mini.icons',
-	}
+    {
+        "echasnovski/mini.icons",
+    },
 }

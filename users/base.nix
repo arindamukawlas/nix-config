@@ -1,6 +1,4 @@
 {
-  inputs,
-  outputs,
   lib,
   config,
   pkgs,
@@ -66,14 +64,23 @@
       withRuby = true;
       withNodeJs = true;
       plugins = with pkgs.vimPlugins; [
-        telescope-fzf-native-nvim
         nvim-treesitter.withAllGrammars
       ];
+    };
+    ssh = {
+      enable = true;
+
     };
     nix-index = {
       enable = true;
     };
     home-manager = {
+      enable = true;
+    };
+  };
+
+  services = {
+    ssh-agent = {
       enable = true;
     };
   };

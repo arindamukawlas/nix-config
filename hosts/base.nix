@@ -10,6 +10,7 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-index-database.nixosModules.nix-index
+    inputs.sops-nix.nixosModules.sops
   ];
 
   nixpkgs = {
@@ -119,6 +120,11 @@
       };
       pulse.enable = true;
     };
+
+    # Enable ssh
+    openssh = {
+      enable = true;
+    };
   };
 
   # Define user account
@@ -187,6 +193,7 @@
         zellij
         ripunzip
         sherlock
+        treefmt
       ]
     );
 
