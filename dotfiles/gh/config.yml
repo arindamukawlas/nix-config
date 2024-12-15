@@ -1,0 +1,6 @@
+version: 1
+prefer_editor_prompt: disabled
+aliases: {}
+editor: ''
+git_protocol: ssh
+prompt: enabled

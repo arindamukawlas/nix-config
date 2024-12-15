@@ -34,6 +34,10 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/tmux";
         recursive = true;
       };
+      "gh" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/gh";
+        recursive = true;
+      };
       "zellij" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/zellij";
         recursive = true;
@@ -46,8 +50,15 @@
       enable = true;
       userName = "Arindam Kawlas";
       userEmail = "arindamukawlas@gmail.com";
+      maintenance = {
+        enable = true;
+      };
       extraConfig = {
         init.defaultBranch = "main";
+        credential = {
+          "https://github.com".helper = "!/run/current-system/sw/bin/gh auth git-credential";
+        "https://gist.github.com".helper = "!/run/current-system/sw/bin/gh auth git-credential";
+        };
       };
     };
     zellij = {
