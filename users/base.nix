@@ -57,7 +57,7 @@
         init.defaultBranch = "main";
         credential = {
           "https://github.com".helper = "!/run/current-system/sw/bin/gh auth git-credential";
-        "https://gist.github.com".helper = "!/run/current-system/sw/bin/gh auth git-credential";
+          "https://gist.github.com".helper = "!/run/current-system/sw/bin/gh auth git-credential";
         };
       };
     };

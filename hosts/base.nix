@@ -152,6 +152,15 @@
     };
   };
 
+  sops = {
+    defaultSopsFile = ../secrets/secrets.yaml;
+    age = {
+      keyFile = "/home/arindamukawlas/.config/sops/age/keys.txt";
+    };
+    secrets = {
+    };
+  };
+
   environment = {
     systemPackages = lib.mkBefore (
       with pkgs;
@@ -187,6 +196,7 @@
         neovim
         ripgrep
         zoxide
+        tree
         fzf
         gh
         bat
@@ -194,6 +204,9 @@
         ripunzip
         sherlock
         treefmt
+        ssh-to-age
+        sops
+        age
       ]
     );
 
@@ -213,6 +226,7 @@
       alias nix-wipehst="sudo nix profile wipe-history --profile /nix/var/nix/profiles/system"
       alias nix-gc="sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; sudo nix-collect-garbage -d"
       alias nix-clean="nix-wipehst; sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; nix-store --optimise; sudo nix-collect-garbage -d; sudo /run/current-system/bin/switch-to-configuration switch"
+      alias get-age-key="(read -r -s SSH_TO_AGE_PASSPHRASE\?'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)"
     '';
   };
 }
