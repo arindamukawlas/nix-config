@@ -60,9 +60,7 @@
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.treefmt-nix.flakeModule
-      ];
+      imports = [ inputs.treefmt-nix.flakeModule ];
       systems = [ "x86_64-linux" ];
       perSystem =
         { ... }:

@@ -129,14 +129,32 @@
 
   # Define user account
   users = {
+    mutableUsers = false;
     defaultUserShell = pkgs.zsh;
     users = {
+      root = {
+        isSystemUser = true;
+        uid = 0;
+        home = "/root";
+        hashedPasswordFile = config.users.users.arindamukawlas.hashedPasswordFile;
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSQgv1soC4+GM2SiNYtesM2TYzArRu8SXC+rkl57lSc arindamukawlas@gmail.com"
+        ];
+      };
       arindamukawlas = {
+        uid = 1000;
+        description = "Arindam Kawlas";
         isNormalUser = true;
         extraGroups = [
           "wheel"
           "input"
           "networkmanager"
+        ];
+        home = "/home/arindamukawlas";
+        createHome = true;
+        hashedPasswordFile = config.sops.secrets."unix/arindamukawlas".path;
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSQgv1soC4+GM2SiNYtesM2TYzArRu8SXC+rkl57lSc arindamukawlas@gmail.com"
         ];
       };
     };
@@ -158,7 +176,27 @@
       keyFile = "/home/arindamukawlas/.config/sops/age/keys.txt";
     };
     secrets = {
+      "unix/arindamukawlas" = {
+        neededForUsers = true;
+      };
     };
+  };
+
+  security = {
+      sudo = {
+        execWheelOnly = true;
+      };
+      rtkit = {
+        enable = true;
+      };
+    };
+
+  documentation = {
+    nixos = {
+      includeAllModules = true;
+    };
+    man = { generateCaches = true;};
+    dev = { enable = true;};
   };
 
   environment = {
@@ -209,6 +247,10 @@
         age
       ]
     );
+    
+    shells = [ pkgs.zsh ];
+
+    enableAllTerminfo = true;
 
     variables = {
       EDITOR = "nvim";
@@ -221,12 +263,15 @@
 
     pathsToLink = [ "/share/zsh" ];
 
+    shellAliases = {
+      nix-lspkgs = "nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree";
+      nix-wipehst = "sudo nix profile wipe-history --profile /nix/var/nix/profiles/system";
+      nix-gc = "sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; sudo nix-collect-garbage -d";
+      nix-clean = "nix-wipehst; sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; nix-store --optimise; sudo nix-collect-garbage -d; sudo /run/current-system/bin/switch-to-configuration switch";
+      get-age-key = "(read -r -s SSH_TO_AGE_PASSPHRASE\?'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)";
+    };
+
     interactiveShellInit = ''
-      alias nix-lspkgs="nix-store --gc --print-roots | rg -v '/proc/' | rg -Po '(?<= -> ).*' | xargs -o nix-tree"
-      alias nix-wipehst="sudo nix profile wipe-history --profile /nix/var/nix/profiles/system"
-      alias nix-gc="sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; sudo nix-collect-garbage -d"
-      alias nix-clean="nix-wipehst; sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; nix-store --optimise; sudo nix-collect-garbage -d; sudo /run/current-system/bin/switch-to-configuration switch"
-      alias get-age-key="(read -r -s SSH_TO_AGE_PASSPHRASE\?'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)"
     '';
   };
 }
