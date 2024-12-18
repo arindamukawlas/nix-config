@@ -183,20 +183,24 @@
   };
 
   security = {
-      sudo = {
-        execWheelOnly = true;
-      };
-      rtkit = {
-        enable = true;
-      };
+    sudo = {
+      execWheelOnly = true;
     };
+    rtkit = {
+      enable = true;
+    };
+  };
 
   documentation = {
     nixos = {
       includeAllModules = true;
     };
-    man = { generateCaches = true;};
-    dev = { enable = true;};
+    man = {
+      generateCaches = true;
+    };
+    dev = {
+      enable = true;
+    };
   };
 
   environment = {
@@ -245,9 +249,12 @@
         ssh-to-age
         sops
         age
+
+        stylua
+        deno
       ]
     );
-    
+
     shells = [ pkgs.zsh ];
 
     enableAllTerminfo = true;
@@ -271,7 +278,6 @@
       get-age-key = "(read -r -s SSH_TO_AGE_PASSPHRASE\?'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)";
     };
 
-    interactiveShellInit = ''
-    '';
+    interactiveShellInit = '''';
   };
 }

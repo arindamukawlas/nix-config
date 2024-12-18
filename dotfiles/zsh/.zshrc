@@ -192,12 +192,6 @@ eval "$(zoxide init zsh)"
 export FZF_DEFAULT_OPTS="--height 40% --layout reverse --border --inline-info"
 source <(fzf --zsh)
 
-# Setup cargo
-#. "/home/habanero/.local/share/cargo/env"
-
-# Setup deno
-# . "/home/habanero/.local/share/deno/env"
-
 plugin-load $plugins 
 if [[ -z "$ZELLIJ" ]]; then
     if [[ "$ZELLIJ_AUTO_ATTACH" == "true" ]]; then
