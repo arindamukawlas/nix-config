@@ -8,6 +8,7 @@
 }:
 {
   imports = [
+    ../cachix.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-index-database.nixosModules.nix-index
     inputs.sops-nix.nixosModules.sops
@@ -50,9 +51,6 @@
 
         # Workaround for https://github.com/NixOS/nix/issues/9574
         nix-path = config.nix.nixPath;
-
-        substituters = lib.mkBefore [ "https://nix-community.cachix.org?priority=1" ];
-        trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
       };
 
       # Make flake registry and nix path match flake inputs
@@ -82,7 +80,7 @@
   };
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  #  i18n.defaultLocale = "en_US.UTF-8";
 
   programs = {
     git = {
@@ -204,56 +202,63 @@
   };
 
   environment = {
-    systemPackages = lib.mkBefore (
-      with pkgs;
-      [
-        # Nix
-        nixfmt-rfc-style
-        nix-tree
-        manix
+    systemPackages =
+      #     let
+      #      ghostty = inputs.ghostty.packages.x86_64-linux.default;
+      #   in
+      lib.mkBefore (
+        with pkgs;
+        [
+          # Nix
+          nixfmt-rfc-style
+          nix-tree
+          manix
 
-        # Rust
-        cargo
-        rustc
-        rustfmt
-        rustlings
-        clippy
+          # Rust
+          cargo
+          rustc
+          rustfmt
+          rustlings
+          clippy
 
-        # Zig
-        zig
+          # Zig
+          zig
 
-        # LSPs
-        zls
-        rust-analyzer
-        lua-language-server
+          # LSPs
+          zls
+          rust-analyzer
+          lua-language-server
 
-        zsh
-        git
-        lazygit
-        tree-sitter
-        vim
-        wget
-        curl
-        neofetch
-        neovim
-        ripgrep
-        zoxide
-        tree
-        fzf
-        gh
-        bat
-        zellij
-        ripunzip
-        sherlock
-        treefmt
-        ssh-to-age
-        sops
-        age
+          zsh
+          git
+          lazygit
+          tree-sitter
+          vim
+          wget
+          curl
+          neofetch
+          neovim
+          ripgrep
+          zoxide
+          tree
+          fzf
+          gh
+          bat
+          zellij
+          ripunzip
+          sherlock
+          treefmt
+          ssh-to-age
+          sops
+          age
 
-        stylua
-        deno
-      ]
-    );
+          stylua
+          deno
+          #          ghostty
+
+          cachix
+        ]
+      );
 
     shells = [ pkgs.zsh ];
 
