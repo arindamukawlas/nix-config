@@ -26,10 +26,10 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/zsh";
         recursive = true;
       };
-      "nvim" = {
-        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/nvim";
-        recursive = true;
-      };
+            "nvim" = {
+             source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/nvim";
+            recursive = true;
+         };
       "tmux" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/tmux";
         recursive = true;

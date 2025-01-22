@@ -52,6 +52,7 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
+
   };
 
   outputs =
