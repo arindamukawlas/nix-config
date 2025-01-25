@@ -123,6 +123,19 @@
     openssh = {
       enable = true;
     };
+
+    resolved = {
+      enable = true;
+      dnssec = "true";
+      dnsovertls = "true";
+      extraConfig = ''
+        [Resolve]
+        DNS=45.90.28.0#abd144.dns.nextdns.io
+        DNS=2a07:a8c0::#abd144.dns.nextdns.io
+        DNS=45.90.30.0#abd144.dns.nextdns.io
+        DNS=2a07:a8c1::#abd144.dns.nextdns.io
+      '';
+    };
   };
 
   # Define user account
