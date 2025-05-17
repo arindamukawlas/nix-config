@@ -9,7 +9,7 @@
     };
 
     nixpkgs-stable = {
-        url = "github:nixos/nixpkgs/nixos-24.05";
+      url = "github:nixos/nixpkgs/nixos-24.05";
     };
 
     # nixos-wsl = {
@@ -49,10 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
-    
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";

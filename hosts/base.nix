@@ -120,11 +120,6 @@
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
 
     xserver = {
       # Enable the X11 windowing system.
@@ -271,7 +266,6 @@
   environment = {
     systemPackages =
       let
-        ghostty = inputs.ghostty.packages.x86_64-linux.default;
         zen-browser = inputs.zen-browser.packages.x86_64-linux.default;
       in
       lib.mkBefore (
