@@ -1,4 +1,4 @@
-#files: 2000	version: 5.9
+#files: 2005	version: 5.9
 
 _comps=(
 '-' '_precommand'
@@ -347,6 +347,10 @@ _comps=(
 'dumpadm' '_dumpadm'
 'dumper' '_dumper'
 'dumper.exe' '_dumper'
+'_dunst' '_dunst'
+'dunst' '_dunst'
+'_dunstctl' '_dunstctl'
+'dunstctl' '_dunstctl'
 'dupload' '_dupload'
 'dvibook' '_dvi'
 'dviconcat' '_dvi'
@@ -674,6 +678,7 @@ _comps=(
 'hotjava' '_webbrowser'
 'htop' '_htop'
 'hwinfo' '_hwinfo'
+'hyprctl' '_hyprctl'
 'iceweasel' '_mozilla'
 'icombine' '_ispell'
 'iconv' '_iconv'
@@ -747,6 +752,7 @@ _comps=(
 'killall' '_killall'
 'killall5' '_killall'
 'kioclient' '_kfmclient'
+'kitty' '_kitty'
 'kldload' '_kld'
 'kldunload' '_kld'
 'knock' '_knock'
@@ -1410,6 +1416,7 @@ _comps=(
 'swift' '_swift'
 'swiftc' '_swift'
 'sw_vers' '_sw_vers'
+'swww' '_swww'
 'sync' '_nothing'
 'sysclean' '_sysclean'
 'sysctl' '_sysctl'
@@ -1908,15 +1915,16 @@ bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
 autoload -Uz _zellij _bat _bluetoothctl _bootctl _busctl \
-            _cargo _coredumpctl _deno _gh _ghostty \
-            _hostnamectl _journalctl _localectl _loginctl _machinectl \
-            _networkctl _nix _nix-build _nix-channel _nix-collect-garbage \
-            _nix-common-options _nix-copy-closure _nix-env _nix-hash _nix-install-package \
-            _nix-instantiate _nixops _nixos-build-vms _nixos-container _nixos-generate-config \
-            _nixos-install _nixos-option _nixos-rebuild _nixos-version _nix-prefetch-url \
-            _nix-push _nix-shell _nix-store _oomctl _powerprofilesctl \
-            _resolvectl _rg _run0 _sd_hosts_or_user_at_host _sd_machines \
-            _sd_outputmodes _sd_unit_files _sops _systemctl _systemd \
+            _cargo _coredumpctl _deno _dunst _dunstctl \
+            _gh _ghostty _hostnamectl _hyprctl _journalctl \
+            _kitty _localectl _loginctl _machinectl _networkctl \
+            _nix _nix-build _nix-channel _nix-collect-garbage _nix-common-options \
+            _nix-copy-closure _nix-env _nix-hash _nix-install-package _nix-instantiate \
+            _nixops _nixos-build-vms _nixos-container _nixos-generate-config _nixos-install \
+            _nixos-option _nixos-rebuild _nixos-version _nix-prefetch-url _nix-push \
+            _nix-shell _nix-store _oomctl _powerprofilesctl _resolvectl \
+            _rg _run0 _sd_hosts_or_user_at_host _sd_machines _sd_outputmodes \
+            _sd_unit_files _sops _swww _systemctl _systemd \
             _systemd-analyze _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-path \
             _systemd-run _systemd-tmpfiles _timedatectl _tree-sitter _udevadm \
             _udisks2 _varlinkctl _wpctl _zellij _zoxide \

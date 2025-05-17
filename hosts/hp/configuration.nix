@@ -21,6 +21,8 @@
     };
   };
 
+  networking.hostName = "hp";
+
   # Set time zone.
   time.timeZone = "Asia/Kolkata";
 

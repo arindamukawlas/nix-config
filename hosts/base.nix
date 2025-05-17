@@ -100,6 +100,15 @@
     ssh = {
       startAgent = true;
     };
+    virt-manager = {
+      enable = true;
+    };
+    hyprland = {
+      enable = true;
+      xwayland = {
+        enable = true;
+      };
+    };
   };
 
   # Select internationalisation properties.
@@ -142,6 +151,7 @@
         support32Bit = true;
       };
       pulse.enable = true;
+      jack.enable = true;
     };
 
     # Enable ssh
@@ -183,8 +193,6 @@
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
-  programs.virt-manager.enable = true;
-
   users.groups.libvirtd.members = [ "arindamukawlas" ];
 
   virtualisation.libvirtd.enable = true;
@@ -217,7 +225,8 @@
       };
     };
   };
-
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   home-manager = {
     extraSpecialArgs = { inherit inputs outputs; };
     useGlobalPkgs = true;
@@ -267,6 +276,11 @@
     systemPackages =
       let
         zen-browser = inputs.zen-browser.packages.x86_64-linux.default;
+        waybarOverride = (
+          pkgs.waybar.overrideAttrs (oldAttrs: {
+            mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+          })
+        );
       in
       lib.mkBefore (
         with pkgs;
@@ -329,6 +343,14 @@
           keepassxc
           git-credential-keepassxc
           qemu
+
+          #Hyprland
+          waybarOverride
+          dunst
+          libnotify
+          swww
+          kitty
+          rofi-wayland
         ]
       );
 
@@ -336,6 +358,9 @@
 
     enableAllTerminfo = true;
 
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
     variables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
