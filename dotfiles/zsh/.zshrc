@@ -183,7 +183,7 @@ function clear-screen-and-scrollback() {
 zle -N clear-screen-and-scrollback
 bindkey "^L" clear-screen-and-scrollback
 
-source /nix/store/mbdv79ikir4vr9x7vwa6dyhjcnhnmfgv-nix-index-0.1.8/etc/profile.d/command-not-found.sh
+# source /nix/store/mbdv79ikir4vr9x7vwa6dyhjcnhnmfgv-nix-index-0.1.8/etc/profile.d/command-not-found.sh
 
 # Setup zoxide completions
 eval "$(zoxide init zsh)"

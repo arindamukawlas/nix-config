@@ -79,9 +79,6 @@
     keyMap = "colemak/mod-dh-ansi-us";
   };
 
-  # Select internationalisation properties.
-  #  i18n.defaultLocale = "en_US.UTF-8";
-
   programs = {
     git = {
       config = {
@@ -105,10 +102,43 @@
     };
   };
 
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_IN";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_IN";
+    LC_IDENTIFICATION = "en_IN";
+    LC_MEASUREMENT = "en_IN";
+    LC_MONETARY = "en_IN";
+    LC_NAME = "en_IN";
+    LC_NUMERIC = "en_IN";
+    LC_PAPER = "en_IN";
+    LC_TELEPHONE = "en_IN";
+    LC_TIME = "en_IN";
+  };
+
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
 
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
+      # Enable the GNOME Desktop Environment.
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+
+      # Configure keymap in X11
+      xkb = {
+        layout = "us";
+        variant = "colemak_dh";
+      };
+    };
     # Enable sound
     pipewire = {
       enable = true;
@@ -136,7 +166,35 @@
         DNS=2a07:a8c1::#abd144.dns.nextdns.io
       '';
     };
+
+    syncthing = {
+      enable = true;
+      openDefaultPorts = true;
+      settings = {
+        devices = {
+          "hp" = {
+            id = "T3XEOUW-4KWYVZ6-J7PF4F6-JMREGCI-ZQTIWTO-CNY33TR-UVESIJK-GRVLGQF";
+          };
+        };
+        folders = {
+          "KeePassXC" = {
+            path = "/var/lib/syncthing/keepassxc";
+            devices = [ "hp" ];
+          };
+        };
+      };
+    };
   };
+
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+
+  programs.virt-manager.enable = true;
+
+  users.groups.libvirtd.members = [ "arindamukawlas" ];
+
+  virtualisation.libvirtd.enable = true;
+
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # Define user account
   users = {
@@ -147,10 +205,6 @@
         isSystemUser = true;
         uid = 0;
         home = "/root";
-        hashedPasswordFile = config.users.users.arindamukawlas.hashedPasswordFile;
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSQgv1soC4+GM2SiNYtesM2TYzArRu8SXC+rkl57lSc arindamukawlas@gmail.com"
-        ];
       };
       arindamukawlas = {
         uid = 1000;
@@ -158,15 +212,13 @@
         isNormalUser = true;
         extraGroups = [
           "wheel"
+          "libvirtd"
           "input"
           "networkmanager"
         ];
         home = "/home/arindamukawlas";
         createHome = true;
         hashedPasswordFile = config.sops.secrets."unix/arindamukawlas".path;
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHSQgv1soC4+GM2SiNYtesM2TYzArRu8SXC+rkl57lSc arindamukawlas@gmail.com"
-        ];
       };
     };
   };
@@ -179,10 +231,12 @@
       arindamukawlas = import ../users/arindamukawlas.nix;
       root = import ../users/root.nix;
     };
+    backupFileExtension = "backup";
   };
 
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
     age = {
       keyFile = "/home/arindamukawlas/.config/sops/age/keys.txt";
     };
@@ -216,9 +270,10 @@
 
   environment = {
     systemPackages =
-      #     let
-      #      ghostty = inputs.ghostty.packages.x86_64-linux.default;
-      #   in
+      let
+        ghostty = inputs.ghostty.packages.x86_64-linux.default;
+        zen-browser = inputs.zen-browser.packages.x86_64-linux.default;
+      in
       lib.mkBefore (
         with pkgs;
         [
@@ -248,6 +303,7 @@
           tree-sitter
           vim
           wget
+          wget2
           curl
           neofetch
           neovim
@@ -264,12 +320,21 @@
           ssh-to-age
           sops
           age
-
           stylua
           deno
-          #          ghostty
-
+          ghostty
+          vscodium
+          chromium
           cachix
+          zen-browser
+          nerd-fonts.jetbrains-mono
+          gcc
+          gnumake
+          thunderbird
+          syncthing
+          keepassxc
+          git-credential-keepassxc
+          qemu
         ]
       );
 
@@ -293,7 +358,7 @@
       nix-wipehst = "sudo nix profile wipe-history --profile /nix/var/nix/profiles/system";
       nix-gc = "sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; sudo nix-collect-garbage -d";
       nix-clean = "nix-wipehst; sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; nix-store --optimise; sudo nix-collect-garbage -d; sudo /run/current-system/bin/switch-to-configuration switch";
-      get-age-key = "(read -r -s SSH_TO_AGE_PASSPHRASE\?'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)";
+      get-age-key = "(read -r -s SSH_TO_AGE_PASSPHRASE\? -p 'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)";
     };
 
     interactiveShellInit = '''';

@@ -8,13 +8,13 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    # nixpkgs-stable = {
-    #     url = "github:nixos/nixpkgs/nixos-24.05";
-    # };
-
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL/main";
+    nixpkgs-stable = {
+        url = "github:nixos/nixpkgs/nixos-24.05";
     };
+
+    # nixos-wsl = {
+    #  url = "github:nix-community/NixOS-WSL/main";
+    # };
 
     # Nix Index
     nix-index-database = {
@@ -52,6 +52,11 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
+    
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
@@ -62,6 +67,7 @@
       #nixpkgs-stable,
       flake-parts,
       treefmt-nix,
+      zen-browser,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -94,6 +100,10 @@
             wsl = nixpkgs.lib.nixosSystem {
               specialArgs = { inherit inputs outputs; };
               modules = [ ./hosts/wsl/configuration.nix ];
+            };
+            hp = nixpkgs.lib.nixosSystem {
+              specialArgs = { inherit inputs outputs; };
+              modules = [ ./hosts/hp/configuration.nix ];
             };
           };
         };
