@@ -8,8 +8,8 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    #   nixpkgs-stable = {
-    #    url = "github:nixos/nixpkgs/nixos-24.05";
+    # nixpkgs-stable = {
+    #   url = "github:nixos/nixpkgs/nixos-24.05";
     # };
 
     # nixos-wsl = {
@@ -63,7 +63,6 @@
       #nixpkgs-stable,
       flake-parts,
       treefmt-nix,
-      zen-browser,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {

@@ -34,8 +34,19 @@
     in
     {
       settings = {
+
+        trusted-users = [
+          "root"
+          "arindamukawlas"
+        ];
+
         # Enable flakes and new 'nix' command
-        experimental-features = "nix-command flakes no-url-literals pipe-operators";
+        experimental-features = [
+          "nix-command"
+          "flakes"
+          "no-url-literals"
+          "pipe-operators"
+        ];
 
         # Use XDG spec for old commands
         use-xdg-base-directories = true;
@@ -68,7 +79,10 @@
     };
 
   networking = {
+    # Set hostname to default for device
     hostName = lib.mkDefault "";
+
+    #Enable networkmanager
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
   };
@@ -85,6 +99,8 @@
         credential.helper = "cache";
       };
     };
+
+    #Enable zsh integration into system
     zsh = {
       enable = true;
     };
@@ -100,14 +116,18 @@
     ssh = {
       startAgent = true;
     };
+    # Enable virtualisation using qemu and virtmanager
     virt-manager = {
       enable = true;
     };
+    #Enable hyprland
     hyprland = {
       enable = true;
+      # Enable legacy support for x11 apps
       xwayland = {
         enable = true;
       };
+      #Launch hyprland using systemd
       withUWSM = true;
     };
     dconf = {
@@ -137,7 +157,7 @@
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
-
+    # Disable x11 but use it's setting for keyboard layout
     xserver = {
       enable = false;
       xkb = {
@@ -145,11 +165,14 @@
         layout = "us";
       };
     };
+    #Enable KDE Plasma
     desktopManager.plasma6.enable = true;
     displayManager = {
       defaultSession = "plasma";
       sddm = {
         enable = true;
+
+        #Run sddm using wayland
         wayland.enable = true;
       };
     };
@@ -174,6 +197,7 @@
       enable = true;
       dnssec = "true";
       dnsovertls = "true";
+      #NextDNS Servers
       extraConfig = ''
         [Resolve]
         DNS=45.90.28.0#abd144.dns.nextdns.io
@@ -191,28 +215,49 @@
           "hp" = {
             id = "T3XEOUW-4KWYVZ6-J7PF4F6-JMREGCI-ZQTIWTO-CNY33TR-UVESIJK-GRVLGQF";
           };
+          "cmf" = {
+            id = "VRUV5YO-VRLTQM3-LHR3XPZ-MM4VALU-2ANNP7G-EFTZXCN-PJW4FBX-5O6N7QQ";
+          };
         };
         folders = {
+          "Obsidian" = {
+            path = "/home/arindamukawlas/Obsidian";
+            devices = [
+              "hp"
+              "cmf"
+            ];
+          };
           "KeePassXC" = {
-            path = "/var/lib/syncthing/keepassxc";
-            devices = [ "hp" ];
+            path = "/home/arindamukawlas/KeePassXC";
+            devices = [
+              "hp"
+              "cmf"
+            ];
           };
         };
       };
     };
   };
 
+  # Do not create default Syncthing folder
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
-  users.groups.libvirtd.members = [ "arindamukawlas" ];
+  # Allow users to use virtualisation
+  users.groups.libvirtd.members = [
+    "root"
+    "arindamukawlas"
+  ];
 
-  virtualisation.libvirtd.enable = true;
-
-  virtualisation.spiceUSBRedirection.enable = true;
-
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
   # Define user account
   users = {
+    # Set user accounts based on config only
     mutableUsers = false;
+
+    # Make Zsh default for all users
     defaultUserShell = pkgs.zsh;
     users = {
       root = {
@@ -229,10 +274,18 @@
           "libvirtd"
           "input"
           "networkmanager"
+          "flatpak"
+          "audio"
+          "video"
+          "input"
+          "qemu-libvirtd"
         ];
         home = "/home/arindamukawlas";
         createHome = true;
         hashedPasswordFile = config.sops.secrets."unix/arindamukawlas".path;
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIMXgHrtVIXcr2z0qT+EkVxMzBlIwAA2++hTvdhPbWcr arindamukawlas@gmail.com"
+        ];
       };
     };
   };
@@ -391,6 +444,7 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };
+
     variables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
@@ -407,7 +461,7 @@
       nix-wipehst = "sudo nix profile wipe-history --profile /nix/var/nix/profiles/system";
       nix-gc = "sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; sudo nix-collect-garbage -d";
       nix-clean = "nix-wipehst; sudo nix-collect-garbage --delete-old; nix-collect-garbage --delete-old; nix-store --optimise; sudo nix-collect-garbage -d; sudo /run/current-system/bin/switch-to-configuration switch";
-      get-age-key = "(read -r -s SSH_TO_AGE_PASSPHRASE\? -p 'Enter passphrase: '; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key)";
+      get-age-key = "read -s SSH_TO_AGE_PASSPHRASE; export SSH_TO_AGE_PASSPHRASE; ssh-to-age -i ~/.ssh/id_ed25519 -private-key; unset SSH_TO_AGE_PASSPHRASE";
     };
 
     interactiveShellInit = '''';
