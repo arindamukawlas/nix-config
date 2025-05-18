@@ -108,41 +108,52 @@
       xwayland = {
         enable = true;
       };
+      withUWSM = true;
+    };
+    dconf = {
+      enable = true;
     };
   };
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_IN";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_IN";
-    LC_IDENTIFICATION = "en_IN";
-    LC_MEASUREMENT = "en_IN";
-    LC_MONETARY = "en_IN";
-    LC_NAME = "en_IN";
-    LC_NUMERIC = "en_IN";
-    LC_PAPER = "en_IN";
-    LC_TELEPHONE = "en_IN";
-    LC_TIME = "en_IN";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    #extraLocaleSettings = {
+    # LC_ADDRESS = "en_IN";
+    # LC_IDENTIFICATION = "en_IN";
+    #  LC_MEASUREMENT = "en_IN";
+    #  LC_MONETARY = "en_IN";
+    #  LC_NAME = "en_IN";
+    #   LC_NUMERIC = "en_IN";
+    # LC_PAPER = "en_IN";
+    #  LC_TELEPHONE = "en_IN";
+    #   LC_TIME = "en_IN";
+    #};
   };
 
+  hardware = {
+    bluetooth.enable = true;
+  };
   services = {
     # Enable CUPS to print documents
     printing.enable = true;
 
     xserver = {
-      # Enable the X11 windowing system.
-      enable = true;
-      # Enable the GNOME Desktop Environment.
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
-
-      # Configure keymap in X11
+      enable = false;
       xkb = {
+        variant = "colemak/mod-dh-ansi-us";
         layout = "us";
-        variant = "colemak_dh";
       };
     };
+    desktopManager.plasma6.enable = true;
+    displayManager = {
+      defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+
     # Enable sound
     pipewire = {
       enable = true;
@@ -225,8 +236,14 @@
       };
     };
   };
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enable = true;
+
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
   home-manager = {
     extraSpecialArgs = { inherit inputs outputs; };
     useGlobalPkgs = true;
@@ -254,6 +271,9 @@
   security = {
     sudo = {
       execWheelOnly = true;
+    };
+    polkit = {
+      enable = true;
     };
     rtkit = {
       enable = true;
@@ -345,12 +365,22 @@
           qemu
 
           #Hyprland
+          python313Packages.pyxdg
+          python313Packages.dbus-python
+          util-linux
+          newt
+          rofi-wayland
+          libnotify
+          pipewire
+          wireplumber
+          qt6.qtwayland
+          qt5.qtwayland
+          hyprpolkitagent
+
           waybarOverride
           dunst
-          libnotify
           swww
           kitty
-          rofi-wayland
         ]
       );
 

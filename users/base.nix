@@ -46,6 +46,10 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/zellij";
         recursive = true;
       };
+      "hypr" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/hypr";
+        recursive = true;
+      };
     };
   };
 
