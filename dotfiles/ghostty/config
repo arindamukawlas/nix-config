@@ -1,1 +1,4 @@
 theme = ayu
+font-family = JetBrains Mono
+cursor-style = block
+cursor-style-blink = true 

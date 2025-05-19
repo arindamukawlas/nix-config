@@ -11,7 +11,11 @@
   home = {
     stateVersion = "24.05";
     preferXdgDirectories = true;
-    packages = with pkgs; [ ];
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+      inter
+      lexend
+    ];
     file = {
       ".zshenv" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/.zshenv";
@@ -48,6 +52,14 @@
       };
       "hypr" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/hypr";
+        recursive = true;
+      };
+      "rofi" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/rofi";
+        recursive = true;
+      };
+      "waybar" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/waybar";
         recursive = true;
       };
     };
@@ -105,5 +117,4 @@
       enable = true;
     };
   };
-
 }

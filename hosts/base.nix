@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  #pkgs-stable,
   ...
 }:
 {
@@ -20,11 +21,11 @@
     };
     overlays = [
       #(final: prev: {
-      #  pkgs-stable = import nixpkgs-stable {
-      #    inherit system;
+      #  pkgs-stable = import pkgs-stable {
+      #    system = "x86_64-linux";
       #    config.allowUnfree = true;
       #  };
-      #};)
+      #})
     ];
   };
 
@@ -349,15 +350,19 @@
     systemPackages =
       let
         zen-browser = inputs.zen-browser.packages.x86_64-linux.default;
-        waybarOverride = (
-          pkgs.waybar.overrideAttrs (oldAttrs: {
-            mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-          })
-        );
+        # waybarOverride = (
+        #   pkgs.waybar.overrideAttrs (oldAttrs: {
+        #     mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+        #   })
+        # );
       in
       lib.mkBefore (
-        with pkgs;
-        [
+        (with pkgs; [
+          # Fonts
+          nerd-fonts.jetbrains-mono
+          lexend
+          inter
+
           # Nix
           nixfmt-rfc-style
           nix-tree
@@ -378,6 +383,8 @@
           rust-analyzer
           lua-language-server
 
+          python3Full
+
           zsh
           git
           lazygit
@@ -392,15 +399,19 @@
           zoxide
           tree
           fzf
+          fd
+          btop
           gh
           bat
           zellij
           ripunzip
+          tldr
           sherlock
           treefmt
           ssh-to-age
           sops
           age
+          jq
           stylua
           deno
           ghostty
@@ -408,7 +419,6 @@
           chromium
           cachix
           zen-browser
-          nerd-fonts.jetbrains-mono
           gcc
           gnumake
           thunderbird
@@ -416,11 +426,14 @@
           keepassxc
           git-credential-keepassxc
           qemu
+          obsidian
 
           #Hyprland
           python313Packages.pyxdg
           python313Packages.dbus-python
           util-linux
+          coreutils
+
           newt
           rofi-wayland
           libnotify
@@ -429,12 +442,14 @@
           qt6.qtwayland
           qt5.qtwayland
           hyprpolkitagent
+          hyprpaper
 
-          waybarOverride
+          waybar
           dunst
           swww
           kitty
-        ]
+        ])
+        # ++ (with pkgs-stable; [])
       );
 
     shells = [ pkgs.zsh ];

@@ -8,9 +8,9 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    # nixpkgs-stable = {
-    #   url = "github:nixos/nixpkgs/nixos-24.05";
-    # };
+    nixpkgs-stable = {
+      url = "github:nixos/nixpkgs/nixos-24.11";
+    };
 
     # nixos-wsl = {
     #  url = "github:nix-community/NixOS-WSL/main";
@@ -85,6 +85,7 @@
       flake =
         let
           inherit (self) outputs;
+          #pkgs-stable = nixpkgs-stable.legacyPackages.x86_64-linux;
         in
         {
           nixosConfigurations = {
@@ -97,6 +98,7 @@
               modules = [ ./hosts/wsl/configuration.nix ];
             };
             hp = nixpkgs.lib.nixosSystem {
+              #specialArgs = { inherit inputs outputs pkgs-stable; };
               specialArgs = { inherit inputs outputs; };
               modules = [ ./hosts/hp/configuration.nix ];
             };
