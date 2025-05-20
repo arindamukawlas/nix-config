@@ -62,6 +62,17 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/waybar";
         recursive = true;
       };
+      "chromium-flags.conf" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/chromium-flags.conf";
+      };
+      "wlrobs" = {
+        source = "${pkgs.obs-studio-plugins.wlrobs}/lib/obs-plugins/libwlrobs.so";
+        target = "obs-studio/plugins/wlrobs/bin/64bit/libwlrobs.so";
+      };
+      "uwsm" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/uwsm";
+        recursive = true;
+      };
     };
   };
 

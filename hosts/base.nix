@@ -426,28 +426,55 @@
           keepassxc
           git-credential-keepassxc
           qemu
+          wev
           obsidian
 
           #Hyprland
+          hyprland
+
           python313Packages.pyxdg
           python313Packages.dbus-python
           util-linux
           coreutils
+          xdg-desktop-portal-gtk
 
           newt
+
+          # App Runner for Hyprland
           rofi-wayland
+
           libnotify
-          pipewire
-          wireplumber
           qt6.qtwayland
           qt5.qtwayland
+          libsForQt5.xwaylandvideobridge
           hyprpolkitagent
+
+          # Wallpaper engine for Hyprland
           hyprpaper
 
+          # Screenshot for Hyprland
+          grimblast
+          grim
+          slurp
+          hyprpicker
+          wl-clipboard
+
+          # Screen recording for Hyprland
+          pipewire
+          wireplumber
+          xdg-desktop-portal-hyprland
+          obs-studio
+          obs-studio-plugins.wlrobs
+
+          # Status bar for Hyprland
           waybar
+
+          # Notifications for Hyprland
           dunst
-          swww
-          kitty
+
+          hyprland-qtutils
+          chafa
+
         ])
         # ++ (with pkgs-stable; [])
       );
@@ -467,6 +494,8 @@
       XDG_DATA_HOME = "/home/arindamukawlas/.local/share";
       XDG_CACHE_HOME = "/home/arindamukawlas/.cache";
       XDG_STATE_HOME = "/home/arindamukawlas/.local/state";
+      XDG_PICTURES_DIR = "/home/arindamukawlas/Pictures";
+      XDG_SCREENSHOTS_DIR = "/home/arindamukawlas/Pictures/Screenshots/";
     };
 
     pathsToLink = [ "/share/zsh" ];
