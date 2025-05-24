@@ -9,24 +9,24 @@
 }:
 {
   imports = [
-    ../cachix.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-index-database.nixosModules.nix-index
     inputs.sops-nix.nixosModules.sops
+    inputs.stylix.nixosModules.stylix
   ];
 
   nixpkgs = {
     config = {
       allowUnfree = true;
     };
-    overlays = [
-      #(final: prev: {
-      #  pkgs-stable = import pkgs-stable {
-      #    system = "x86_64-linux";
-      #    config.allowUnfree = true;
-      #  };
-      #})
-    ];
+    #overlays = [
+    #(final: prev: {
+    #  pkgs-stable = import pkgs-stable {
+    #    system = "x86_64-linux";
+    #    config.allowUnfree = true;
+    #  };
+    #})
+    #];
   };
 
   nix =
@@ -35,7 +35,17 @@
     in
     {
       settings = {
-
+        substituters = [
+          "https://cache.nixos.org"
+          "https://cachix.cachix.org"
+          "https://nvf.cachix.org"
+          "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+          "cachix.cachix.org-1:eWNHQldwUO7G2VkjpnjDbWwy4KQ/HNxht7H4SSoMckM="
+          "nvf.cachix.org-1:GMQWiUhZ6ux9D5CvFFMwnc2nFrUHTeGaXRlVBXo+naI="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
         trusted-users = [
           "root"
           "arindamukawlas"
@@ -50,6 +60,7 @@
         ];
 
         # Use XDG spec for old commands
+        #
         use-xdg-base-directories = true;
 
         # Disable warning when current config has not been committed
@@ -86,6 +97,10 @@
     #Enable networkmanager
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
+    dhcpcd = {
+      wait = "background";
+      extraConfig = "noarp";
+    };
   };
 
   # Configure Console
@@ -95,6 +110,13 @@
   };
 
   programs = {
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
     git = {
       config = {
         credential.helper = "cache";
@@ -134,6 +156,12 @@
     dconf = {
       enable = true;
     };
+    uwsm = {
+      enable = true;
+    };
+    waybar = {
+      enable = true;
+    };
   };
 
   # Select internationalisation properties.
@@ -156,8 +184,11 @@
     bluetooth.enable = true;
   };
   services = {
+    gvfs.enable = true;
+    journald.extraConfig = "SystemMaxUse=1G";
     # Enable CUPS to print documents
     printing.enable = true;
+    flatpak.enable = true;
     # Disable x11 but use it's setting for keyboard layout
     xserver = {
       enable = false;
@@ -168,16 +199,15 @@
     };
     #Enable KDE Plasma
     desktopManager.plasma6.enable = true;
-    displayManager = {
-      defaultSession = "plasma";
-      sddm = {
-        enable = true;
-
-        #Run sddm using wayland
-        wayland.enable = true;
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --remember --remember-session --time --time-format '%d %b %Y  -  %H:%M:%S  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'";
+          user = "greeter";
+        };
       };
     };
-
     # Enable sound
     pipewire = {
       enable = true;
@@ -299,6 +329,21 @@
     ];
   };
   home-manager = {
+    sharedModules = [
+      {
+        stylix.targets = {
+          zellij = {
+            enable = false;
+          };
+          neovim = {
+            enable = false;
+          };
+          hyprlock = {
+            enable = false;
+          };
+        };
+      }
+    ];
     extraSpecialArgs = { inherit inputs outputs; };
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -309,6 +354,33 @@
     backupFileExtension = "backup";
   };
 
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
+    override = {
+      base00 = "0a0e14";
+    };
+    image = pkgs.fetchurl {
+      url = "https://i.imgur.com/GU1bLtO.jpeg";
+      hash = "sha256-uNsVFj61snPTNB19QknbXuVFr3e+tq2mc1pf1KAeWds=";
+    };
+    polarity = "dark";
+    cursor = {
+      package = pkgs.phinger-cursors;
+      name = "phinger-cursors-light";
+      size = 24;
+    };
+    fonts = {
+      monospace = {
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
+      };
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      emoji = config.stylix.fonts.monospace;
+    };
+
+  };
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
@@ -325,6 +397,27 @@
   security = {
     sudo = {
       execWheelOnly = true;
+      extraRules = [
+        {
+          users = [ "greeter" ];
+          commands = [
+            {
+              command = "${pkgs.systemd}/bin/systemctl reboot";
+              options = [
+                "SETENV"
+                "NOPASSWD"
+              ];
+            }
+            {
+              command = "${pkgs.systemd}/bin/systemctl poweroff";
+              options = [
+                "SETENV"
+                "NOPASSWD"
+              ];
+            }
+          ];
+        }
+      ];
     };
     polkit = {
       enable = true;
@@ -335,9 +428,9 @@
   };
 
   documentation = {
-    nixos = {
-      includeAllModules = true;
-    };
+    #  nixos = {
+    # includeAllModules = true;
+    #};
     man = {
       generateCaches = true;
     };
@@ -346,10 +439,42 @@
     };
   };
 
+  fonts.packages =
+    with pkgs;
+    [
+      nerd-fonts.jetbrains-mono
+      lexend
+      inter
+
+    ]
+    ++ [
+      inputs.custom-fonts.packages.${pkgs.stdenv.hostPlatform.system}.san-francisco
+    ];
+
   environment = {
+    plasma6.excludePackages = with pkgs.kdePackages; [
+      plasma-browser-integration
+      konsole
+      ark
+      elisa
+      gwenview
+      okular
+      krdp
+      discover
+      dolphin
+      baloo-widgets
+      dolphin-plugins
+      kate
+      khelpcenter
+      kwallet
+      elisa
+      spectacle
+      plasma-systemmonitor
+      drkonqi
+    ];
     systemPackages =
       let
-        zen-browser = inputs.zen-browser.packages.x86_64-linux.default;
+        zen-browser = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
         # waybarOverride = (
         #   pkgs.waybar.overrideAttrs (oldAttrs: {
         #     mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
@@ -358,10 +483,8 @@
       in
       lib.mkBefore (
         (with pkgs; [
-          # Fonts
-          nerd-fonts.jetbrains-mono
-          lexend
-          inter
+
+          nerd-font-patcher
 
           # Nix
           nixfmt-rfc-style
@@ -405,6 +528,7 @@
           bat
           zellij
           ripunzip
+          zip
           tldr
           sherlock
           treefmt
@@ -417,7 +541,6 @@
           ghostty
           vscodium
           chromium
-          cachix
           zen-browser
           gcc
           gnumake
@@ -428,26 +551,55 @@
           qemu
           wev
           obsidian
+          qt6ct
+          wf-recorder
+          # Display Manager
+          greetd.greetd
+          greetd.tuigreet
 
-          #Hyprland
-          hyprland
-
+          # UWSM
+          uwsm
           python313Packages.pyxdg
           python313Packages.dbus-python
           util-linux
-          coreutils
-          xdg-desktop-portal-gtk
-
           newt
+          libnotify
 
+          hyprland
+          #Night Light for Hyprland
+          hyprsunset
+
+          # Lock screen for Hyprland
+          hyprlock
+
+          # Cursor theme for Hyprland
+          nwg-look
+          systemd
           # App Runner for Hyprland
           rofi-wayland
+          udiskie
+          blueberry
+          pavucontrol
+          nwg-bar
+          hypridle
+          papirus-icon-theme
+          papirus-folders
+          wl-clip-persist
+          cliphist
+          hyprls
+          networkmanagerapplet
+          inputs.pyprland.packages.${pkgs.stdenv.hostPlatform.system}.pyprland
+          socat
 
-          libnotify
+          hyprland-qt-support
           qt6.qtwayland
           qt5.qtwayland
           libsForQt5.xwaylandvideobridge
           hyprpolkitagent
+          coreutils
+          xdg-desktop-portal-gtk
+          vesktop
+          yazi
 
           # Wallpaper engine for Hyprland
           hyprpaper
@@ -470,13 +622,13 @@
           waybar
 
           # Notifications for Hyprland
-          dunst
+          swaynotificationcenter
 
           hyprland-qtutils
           chafa
 
+          imagemagick
         ])
-        # ++ (with pkgs-stable; [])
       );
 
     shells = [ pkgs.zsh ];
@@ -485,17 +637,17 @@
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-    };
-
-    variables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
       XDG_CONFIG_HOME = "/home/arindamukawlas/.config";
       XDG_DATA_HOME = "/home/arindamukawlas/.local/share";
       XDG_CACHE_HOME = "/home/arindamukawlas/.cache";
       XDG_STATE_HOME = "/home/arindamukawlas/.local/state";
       XDG_PICTURES_DIR = "/home/arindamukawlas/Pictures";
       XDG_SCREENSHOTS_DIR = "/home/arindamukawlas/Pictures/Screenshots/";
+    };
+
+    variables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
     };
 
     pathsToLink = [ "/share/zsh" ];
@@ -509,5 +661,21 @@
     };
 
     interactiveShellInit = '''';
+
+    etc = {
+      "greetd/config.toml" = {
+        text = ''
+          [terminal]
+          vt = 1
+
+          [default_session]
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --user-menu --remember --remember-session --remember-user-session --time --time-format '%d %b %Y  -  %H:%M:%S  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'"
+          user = "greeter"
+        '';
+      };
+      "security/faillock.conf" = {
+        text = "deny = 0";
+      };
+    };
   };
 }

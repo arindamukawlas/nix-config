@@ -1,16 +1,28 @@
 {
-  lib,
   config,
+  inputs,
   pkgs,
+  lib,
   ...
 }:
 {
+
+  imports = [
+    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
+  ];
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
   home = {
     stateVersion = "24.05";
     preferXdgDirectories = true;
+    pointerCursor = lib.mkForce {
+      name = "phinger-cursors-light";
+      package = pkgs.phinger-cursors;
+      size = 24;
+      x11.enable = true;
+    };
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       inter
@@ -22,7 +34,14 @@
       };
     };
   };
-
+  stylix = {
+    iconTheme = {
+      enable = true;
+      package = pkgs.papirus-icon-theme;
+      dark = "Papirus-Dark";
+      light = "Papirus-Light";
+    };
+  };
   xdg = {
     enable = true;
     configFile = {
@@ -58,9 +77,20 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/rofi";
         recursive = true;
       };
+      "xdg-desktop-portal" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/xdg-desktop-portal";
+        recursive = true;
+      };
       "waybar" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/waybar";
         recursive = true;
+      };
+      "dunst" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/dunst";
+        recursive = true;
+      };
+      "electron-flags.conf" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/electron-flags.conf";
       };
       "chromium-flags.conf" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/chromium-flags.conf";
@@ -121,11 +151,18 @@
     home-manager = {
       enable = true;
     };
+
+    hyprcursor-phinger.enable = true;
   };
 
   services = {
     ssh-agent = {
       enable = true;
     };
+  };
+  wayland.windowManager.hyprland = {
+    systemd.enable = false;
+    plugins = [
+    ];
   };
 }
