@@ -181,6 +181,10 @@
   };
 
   hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
     bluetooth.enable = true;
   };
   services = {
@@ -332,6 +336,9 @@
     sharedModules = [
       {
         stylix.targets = {
+          qt = {
+            enable = false;
+          };
           zellij = {
             enable = false;
           };
@@ -519,6 +526,8 @@
           neofetch
           neovim
           ripgrep
+          ripgrep-all
+          tokei
           zoxide
           tree
           fzf
@@ -529,6 +538,19 @@
           zellij
           ripunzip
           zip
+          eza
+          xh
+          gitui
+          dust
+          dua
+          hyperfine
+          evil-helix
+          bacon
+          cargo-info
+          fselect
+          rusty-man
+          #delta
+
           tldr
           sherlock
           treefmt
@@ -547,6 +569,7 @@
           thunderbird
           syncthing
           keepassxc
+          keepassxc-go
           git-credential-keepassxc
           qemu
           wev
@@ -577,6 +600,15 @@
           systemd
           # App Runner for Hyprland
           rofi-wayland
+          bottles
+          qbittorrent-enhanced
+          wine
+          onlyoffice-desktopeditors
+          masterpdfeditor
+          libreoffice-qt6-fresh
+          hunspell
+          zathura
+          telegram-desktop
           udiskie
           blueberry
           pavucontrol

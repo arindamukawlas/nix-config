@@ -47,15 +47,14 @@ autoload -Uz $ZDOTDIR/completions/**/*
 
 # Aliases
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget/history"
-alias ls="ls --color=auto"
+alias ls="eza"
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
-alias la="ls -A"
+alias la="eza -la"
 alias cd="z"
-#alias bat="batcat"
 
 # Options
 setopt HIST_SAVE_NO_DUPS
