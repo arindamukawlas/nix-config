@@ -15,59 +15,47 @@
     "clock"
   ],
   "modules-right": [
-    "custom/media",
-    // "privacy",
+    "tray",
     "idle_inhibitor",
     "network",
     "bluetooth",
     "memory",
-    // "pulseaudio#microphone",
     "pulseaudio",
-    // "backlight",
-    "battery",
     "custom/powermenu",
-    "tray",
+    "hyprland/language"
   ],
   "hyprland/window": {
     "format": "{}",
     "max-length": 40,
     "separate-outputs": true,
     "icon": true,
-    "icon-size": 18,
-  },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "󰈈",
-      "deactivated": "󰈉",
-    },
+    "icon-size": 18
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
     "on-click": "activate",
+    "format": "{icon}"
+  },
+  "hyprland/language": {
+    "format-en": "󰫾",
+    "format-en-colemak_dh": "󰫰"
+  },
+  "idle_inhibitor": {
     "format": "{icon}",
-    // "format-icons": {
-    //   "1": "いち",
-    //   "2": "に",
-    //   "3": "さん",
-    //   "4": "よん",
-    //   "5": "ご",
-    //   "6": "ろく",
-    //   "7": "なな",
-    //   "8": "はち",
-    //   "9": "きゅう",
-    //   "10": "じゅう",
-    // },
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    }
   },
   "tray": {
     "icon-size": 18,
-    "spacing": 10,
+    "spacing": 10
   },
   "clock": {
-    "format": "  {:%I:%M %p    %a, %b %e}",
+    "format": "  {:%H:%M    %D, %a}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "interval": 60,
+    "interval": 60
   },
   "pulseaudio": {
     "format": "{icon}  {volume}",
@@ -89,8 +77,8 @@
         "",
         "",
         ""
-      ],
-    },
+      ]
+    }
   },
   "pulseaudio#microphone": {
     "format": "{format_source}",
@@ -99,7 +87,7 @@
     "on-click": "pamixer --default-source -t",
     "on-scroll-up": "pamixer --default-source -i 5",
     "on-scroll-down": "pamixer --default-source -d 5",
-    "scroll-step": 5,
+    "scroll-step": 5
   },
   "memory": {
     "interval": 30,
@@ -107,7 +95,7 @@
     "max-length": 10,
     "tooltip": true,
     "tooltip-format": "Memory - {used:0.1f}GB used",
-    "on-click": "kitty -e btop",
+    "on-click": "kitty -e btop"
   },
   "network": {
     // "interface": "wlp2*", // (Optional) To force the use of this interface
@@ -117,7 +105,7 @@
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "󰖪 ⚠",
     "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
-    "on-click-right": "nm-connection-editor",
+    "on-click-right": "nm-connection-editor"
   },
   "bluetooth": {
     "format": " {status}",
@@ -126,13 +114,16 @@
     "tooltip-format": "{device_alias}",
     "tooltip-format-connected": " {device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}",
-    "on-click": "blueberry",
+    "on-click": "blueberry"
+  },
+  "keyboard": {
+    "format": "⌨ {layout}"
   },
   // CUSTOM MODULES
   "custom/powermenu": {
     "format": "⏻ ",
     "escape": true,
-    "on-click": "nwg-bar",
+    "on-click": "nwg-bar"
     // "on-click-right": "playerctl stop",
   },
   "custom/media": {
@@ -145,7 +136,7 @@
     "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous",
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources/custom_modules folder
   },
   "custom/notification": {
     "tooltip": false,

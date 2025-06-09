@@ -36,6 +36,11 @@ tooltip {
   border-radius: 4px;
 }
 
+#language {
+  font-size: 28px;
+  margin: -7px 4px -7px -2px;
+}
+
 #workspaces button.focused {
   color: @subtle;
   /* background: @love; */
@@ -58,7 +63,6 @@ tooltip {
 #idle_inhibitor,
 #window,
 #clock,
-#battery,
 #pulseaudio,
 #network,
 #bluetooth,
@@ -66,8 +70,8 @@ tooltip {
 #workspaces,
 #tray,
 #memory,
-#custom-powermenu,
-#backlight {
+#custom-powermenu
+{
   opacity: 1;
   padding: 0px 10px;
 }
@@ -111,9 +115,6 @@ window#waybar.empty #window {
   color: @love;
 }
 
-#idle_inhibitor {
-}
-
 #pulseaudio {
   color: @iris;
 }
@@ -122,12 +123,3 @@ window#waybar.empty #window {
   color: @text;
 }
 
-#backlight {
-  color: @rose;
-  padding: 0px;
-  margin: 0px;
-}
-
-#battery {
-  color: @foam;
-}

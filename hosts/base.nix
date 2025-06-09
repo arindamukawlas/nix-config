@@ -213,7 +213,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --remember --remember-session --time --time-format '%d %b %Y  -  %H:%M:%S  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --remember --remember-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'";
           user = "greeter";
         };
       };
@@ -703,7 +703,7 @@
           vt = 1
 
           [default_session]
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --user-menu --remember --remember-session --remember-user-session --time --time-format '%d %b %Y  -  %H:%M:%S  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'"
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --user-menu --remember --remember-session --remember-user-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'"
           user = "greeter"
         '';
       };
