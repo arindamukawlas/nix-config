@@ -57,6 +57,10 @@
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/tmux";
         recursive = true;
       };
+      "kitty" = {
+        source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/kitty";
+        recursive = true;
+      };
       "ghostty" = {
         source = config.lib.file.mkOutOfStoreSymlink "/home/arindamukawlas/nix-config/dotfiles/ghostty";
         recursive = true;

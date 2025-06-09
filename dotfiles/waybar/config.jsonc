@@ -117,7 +117,7 @@
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "󰖪 ⚠",
     "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
-    "on-click-right": "ghostty -e nmtui",
+    "on-click-right": "nm-connection-editor",
   },
   "bluetooth": {
     "format": " {status}",

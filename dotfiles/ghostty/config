@@ -1,4 +1,12 @@
 theme = ayu
-font-family = JetBrains Mono
+font-family = JetBrainsMono Nerd Font
 cursor-style = block
 cursor-style-blink = true 
+gtk-single-instance = true
+gtk-tabs-location = hidden
+window-theme = system
+gtk-titlebar = false
+gtk-wide-tabs = false
+gtk-adwaita = false
+confirm-close-surface = false
+

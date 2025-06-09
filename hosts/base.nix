@@ -60,7 +60,6 @@
         ];
 
         # Use XDG spec for old commands
-        #
         use-xdg-base-directories = true;
 
         # Disable warning when current config has not been committed
@@ -96,11 +95,14 @@
 
     #Enable networkmanager
     networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
-    dhcpcd = {
-      wait = "background";
-      extraConfig = "noarp";
-    };
+    useDHCP = false;
+    dhcpcd.enable = false;
+    nameservers = [
+      "2a07:a8c0::ab:d144"
+      "2a07:a8c1::ab:d144"
+      "45.90.28.201"
+      "45.90.30.201"
+    ];
   };
 
   # Configure Console
@@ -170,13 +172,13 @@
     #extraLocaleSettings = {
     # LC_ADDRESS = "en_IN";
     # LC_IDENTIFICATION = "en_IN";
-    #  LC_MEASUREMENT = "en_IN";
-    #  LC_MONETARY = "en_IN";
-    #  LC_NAME = "en_IN";
-    #   LC_NUMERIC = "en_IN";
+    # LC_MEASUREMENT = "en_IN";
+    # LC_MONETARY = "en_IN";
+    # LC_NAME = "en_IN";
+    # LC_NUMERIC = "en_IN";
     # LC_PAPER = "en_IN";
-    #  LC_TELEPHONE = "en_IN";
-    #   LC_TIME = "en_IN";
+    # LC_TELEPHONE = "en_IN";
+    # LC_TIME = "en_IN";
     #};
   };
 
@@ -189,9 +191,15 @@
   };
   services = {
     gvfs.enable = true;
-    journald.extraConfig = "SystemMaxUse=1G";
+    avahi.enable = false;
+    journald.extraConfig = "SystemMaxUse=50M";
     # Enable CUPS to print documents
-    printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = [
+        pkgs.canon-capt
+      ];
+    };
     flatpak.enable = true;
     # Disable x11 but use it's setting for keyboard layout
     xserver = {
@@ -201,8 +209,6 @@
         layout = "us";
       };
     };
-    #Enable KDE Plasma
-    desktopManager.plasma6.enable = true;
     greetd = {
       enable = true;
       settings = {
@@ -245,6 +251,7 @@
     syncthing = {
       enable = true;
       openDefaultPorts = true;
+      systemService = false;
       settings = {
         devices = {
           "hp" = {
@@ -275,8 +282,18 @@
   };
 
   # Do not create default Syncthing folder
-  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
-
+  systemd = {
+    services = {
+      syncthing = {
+        environment.STNODEFAULTFOLDER = "true";
+        wantedBy = lib.mkForce [ ];
+      };
+      syncthing-init.wantedBy = lib.mkForce [ ];
+      NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
+      NetworkManager.wantedBy = lib.mkForce [ ];
+      NetworkManager-dispatcher.wantedBy = lib.mkForce [ ];
+    };
+  };
   # Allow users to use virtualisation
   users.groups.libvirtd.members = [
     "root"
@@ -356,7 +373,6 @@
     useUserPackages = true;
     users = {
       arindamukawlas = import ../users/arindamukawlas.nix;
-      root = import ../users/root.nix;
     };
     backupFileExtension = "backup";
   };
@@ -459,26 +475,6 @@
     ];
 
   environment = {
-    plasma6.excludePackages = with pkgs.kdePackages; [
-      plasma-browser-integration
-      konsole
-      ark
-      elisa
-      gwenview
-      okular
-      krdp
-      discover
-      dolphin
-      baloo-widgets
-      dolphin-plugins
-      kate
-      khelpcenter
-      kwallet
-      elisa
-      spectacle
-      plasma-systemmonitor
-      drkonqi
-    ];
     systemPackages =
       let
         zen-browser = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -562,6 +558,9 @@
           deno
           ghostty
           vscodium
+          kitty
+          foot
+
           chromium
           zen-browser
           gcc
@@ -576,6 +575,7 @@
           obsidian
           qt6ct
           wf-recorder
+
           # Display Manager
           greetd.greetd
           greetd.tuigreet
@@ -589,6 +589,7 @@
           libnotify
 
           hyprland
+
           #Night Light for Hyprland
           hyprsunset
 
@@ -627,6 +628,7 @@
           qt6.qtwayland
           qt5.qtwayland
           libsForQt5.xwaylandvideobridge
+          chromium
           hyprpolkitagent
           coreutils
           xdg-desktop-portal-gtk
