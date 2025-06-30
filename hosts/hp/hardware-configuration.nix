@@ -21,9 +21,14 @@
     "ums_realtek"
     "sd_mod"
     "sr_mod"
+    "i915"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.initrd.kernelModules = [
+    "i915"
+  ];
+  boot.kernelModules = [
+    "kvm-intel"
+  ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
@@ -40,7 +45,7 @@
     ];
   };
 
-  swapDevices = [
+  swapDevices = lib.mkForce [
     { device = "/dev/disk/by-uuid/b6ed8e16-7891-41d1-9878-9c0892d7e8fb"; }
   ];
 
@@ -48,7 +53,6 @@
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
 

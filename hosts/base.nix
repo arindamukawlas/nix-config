@@ -187,9 +187,32 @@
       enable = true;
       enable32Bit = true;
     };
-    bluetooth.enable = true;
+    bluetooth = {
+      enable = true;
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+          Experimental = true;
+        };
+      };
+    };
+    #pulseaudio = {
+    #  enable = true;
+    # configFile = pkgs.writeText "default.pa" ''
+    #   load-module module-bluetooth-policy
+    #   load-module module-bluetooth-discover
+    #   load-module module-switch-on-connect
+    #   ## module fails to load with
+    #   ##   module-bluez5-device.c: Failed to get device path from module arguments
+    #   ##   module.c: Failed to load module "module-bluez5-device" (argument: ""): initialization failed.
+    #   # load-module module-bluez5-device
+    #   # load-module module-bluez5-discover
+    # '';
+    # package = pkgs.pulseaudioFull;
+    #};
   };
   services = {
+    blueman.enable = true;
     gvfs.enable = true;
     avahi.enable = false;
     journald.extraConfig = "SystemMaxUse=50M";
@@ -402,7 +425,6 @@
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
     };
-
   };
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
@@ -468,7 +490,6 @@
       nerd-fonts.jetbrains-mono
       lexend
       inter
-
     ]
     ++ [
       inputs.custom-fonts.packages.${pkgs.stdenv.hostPlatform.system}.san-francisco
@@ -601,6 +622,7 @@
           systemd
           # App Runner for Hyprland
           rofi-wayland
+          killall
           bottles
           qbittorrent-enhanced
           wine
@@ -611,7 +633,6 @@
           zathura
           telegram-desktop
           udiskie
-          blueberry
           pavucontrol
           nwg-bar
           hypridle
@@ -621,6 +642,7 @@
           cliphist
           hyprls
           networkmanagerapplet
+
           inputs.pyprland.packages.${pkgs.stdenv.hostPlatform.system}.pyprland
           socat
 
@@ -654,6 +676,8 @@
 
           # Status bar for Hyprland
           waybar
+          kdePackages.ark
+          android-tools
 
           # Notifications for Hyprland
           swaynotificationcenter
@@ -671,6 +695,7 @@
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
+      UWSM_SILENT_START = "1";
       XDG_CONFIG_HOME = "/home/arindamukawlas/.config";
       XDG_DATA_HOME = "/home/arindamukawlas/.local/share";
       XDG_CACHE_HOME = "/home/arindamukawlas/.cache";

@@ -79,10 +79,6 @@
       #nixpkgs-stable,
       flake-parts,
       treefmt-nix,
-      stylix,
-      sops-nix,
-      nix-index-database,
-      home-manager,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {

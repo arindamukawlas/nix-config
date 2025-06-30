@@ -1,25 +1,24 @@
 @import "./ayu-dark.css";
 
+
 * {
   border: none;
   border-radius: 0;
-  font-family: "JetBrainsMono Nerd Font";
+  font-family: "JetBrainsMono Nerd Font Propo";
   font-weight: 600;
   font-size: 14px;
   min-height: 0;
-}
-#custom-notification {
-  font-family: "JetBrainsMono Nerd Font";
+  transition-property: background;
+  transition-duration: .05s;
 }
 
 window#waybar {
   background: @background;
-   border-bottom: 1px solid #444444;
+  border-bottom: 1px solid #333333;
 }
 
 tooltip {
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid @highlightLow;
+  background: @black;
   border-radius: 8px;
   padding: 10px;
   color: @brightBlack;
@@ -27,13 +26,12 @@ tooltip {
 
 #workspaces button {
   padding: 0px 4px;
-  color: @highlightHigh;
   margin: 2px 2px;
   border-radius: 4px;
 }
 
 #workspaces button.active {
-  border-radius: 4px;
+  background: #1f2329;
 }
 
 #language {
@@ -42,8 +40,6 @@ tooltip {
 }
 
 #workspaces button.focused {
-  color: @subtle;
-  /* background: @love; */
   border-radius: 4px;
 }
 
@@ -54,7 +50,6 @@ tooltip {
 }
 
 #workspaces button:hover {
-  color: @iris;
   background: rgba(255, 255, 255, 0.1); /* Slight hover highlight */
   border-radius: 4px;
 }
@@ -70,56 +65,22 @@ tooltip {
 #workspaces,
 #tray,
 #memory,
-#custom-powermenu
+#custom-powermenu,
+#custom-pipewire,
+#language
 {
   opacity: 1;
   padding: 0px 10px;
 }
 
-#bluetooth {
-  color: @text;
+.modules-left > widget:first-child > #workspaces {
+  margin-left:0;
 }
-
-#memory {
-  color: @pine;
-}
-
-#temperature {
-  color: @text;
-}
-
-#temperature.critical {
-  color: @love;
-}
-
-#tray {
-}
-
-#custom-power_profile {
-  color: @foam;
-}
-
-#window {
-  color: @text;
+.modules-right > widget:last-child > #workspaces {
+  margin-right:0;
 }
 
 window#waybar.empty #window {
   background-color: transparent;
-}
-
-#clock {
-  color: @rose;
-}
-
-#network {
-  color: @love;
-}
-
-#pulseaudio {
-  color: @iris;
-}
-
-#pulseaudio.microphone {
-  color: @text;
 }
 
