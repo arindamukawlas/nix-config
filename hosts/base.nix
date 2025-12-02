@@ -95,8 +95,6 @@
 
     #Enable networkmanager
     networkmanager.enable = true;
-    useDHCP = false;
-    dhcpcd.enable = false;
     nameservers = [
       "2a07:a8c0::ab:d144"
       "2a07:a8c1::ab:d144"
@@ -138,9 +136,9 @@
     nix-ld = {
       enable = true;
     };
-    ssh = {
-      startAgent = true;
-    };
+    #ssh = {
+    # startAgent = true;
+    #};
     # Enable virtualisation using qemu and virtmanager
     virt-manager = {
       enable = true;
@@ -188,7 +186,6 @@
       enable32Bit = true;
     };
     bluetooth = {
-      enable = true;
       settings = {
         General = {
           Enable = "Source,Sink,Media,Socket";
@@ -236,7 +233,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --remember --remember-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'";
+          command = "${pkgs.tuigreet}/bin/tuigreet --asterisks --remember --remember-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'";
           user = "greeter";
         };
       };
@@ -312,9 +309,6 @@
         wantedBy = lib.mkForce [ ];
       };
       syncthing-init.wantedBy = lib.mkForce [ ];
-      NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
-      NetworkManager.wantedBy = lib.mkForce [ ];
-      NetworkManager-dispatcher.wantedBy = lib.mkForce [ ];
     };
   };
   # Allow users to use virtualisation
@@ -349,6 +343,7 @@
           "libvirtd"
           "input"
           "networkmanager"
+          "libvirt"
           "flatpak"
           "audio"
           "video"
@@ -530,8 +525,6 @@
           rust-analyzer
           lua-language-server
 
-          python3Full
-
           zsh
           git
           lazygit
@@ -594,16 +587,17 @@
           qemu
           wev
           obsidian
-          qt6ct
+          qt6Packages.qt6ct
           wf-recorder
 
           # Display Manager
-          greetd.greetd
-          greetd.tuigreet
+          greetd
+          tuigreet
 
           # UWSM
           uwsm
           python313Packages.pyxdg
+          virtiofsd
           python313Packages.dbus-python
           util-linux
           newt
@@ -612,7 +606,7 @@
           hyprland
 
           #Night Light for Hyprland
-          hyprsunset
+          #hyprsunset
 
           # Lock screen for Hyprland
           hyprlock
@@ -621,7 +615,7 @@
           nwg-look
           systemd
           # App Runner for Hyprland
-          rofi-wayland
+          rofi
           killall
           bottles
           qbittorrent-enhanced
@@ -631,7 +625,7 @@
           libreoffice-qt6-fresh
           hunspell
           zathura
-          telegram-desktop
+          ayugram-desktop
           udiskie
           pavucontrol
           nwg-bar
@@ -643,13 +637,11 @@
           hyprls
           networkmanagerapplet
 
-          inputs.pyprland.packages.${pkgs.stdenv.hostPlatform.system}.pyprland
           socat
 
           hyprland-qt-support
           qt6.qtwayland
           qt5.qtwayland
-          libsForQt5.xwaylandvideobridge
           chromium
           hyprpolkitagent
           coreutils
@@ -691,7 +683,7 @@
 
     shells = [ pkgs.zsh ];
 
-    enableAllTerminfo = true;
+    #enableAllTerminfo = true;
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
@@ -728,7 +720,7 @@
           vt = 1
 
           [default_session]
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --user-menu --remember --remember-session --remember-user-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'"
+          command = "${pkgs.tuigreet}/bin/tuigreet --asterisks --user-menu --remember --remember-session --remember-user-session --time --time-format '%d %b %Y  -  %T  -  %A' --theme 'input=red' --window-padding 1 --power-shutdown 'systemctl poweroff' --power-reboot 'systemctl reboot'"
           user = "greeter"
         '';
       };

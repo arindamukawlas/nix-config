@@ -113,8 +113,11 @@
   programs = {
     git = {
       enable = true;
-      userName = "Arindam Kawlas";
-      userEmail = "arindamukawlas@gmail.com";
+      settings = {
+        user.name = "Arindam Kawlas";
+        user.email = "arindamukawlas@gmail.com";
+
+      };
       maintenance = {
         enable = true;
       };

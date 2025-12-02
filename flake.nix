@@ -7,10 +7,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pyprland = {
-      url = "github:hyprland-community/pyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #pyprland = {
+    #  url = "github:hyprland-community/pyprland";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
     # Nixpkgs
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
@@ -37,10 +37,10 @@
     };
 
     # Disko
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #disko = {
+    #  url = "github:nix-community/disko";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -78,7 +78,6 @@
       nixpkgs,
       #nixpkgs-stable,
       flake-parts,
-      treefmt-nix,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
